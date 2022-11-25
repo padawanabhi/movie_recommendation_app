@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}
+{{title}}
+{% endblock %}
+
+{% block content %}
+  <div style="padding: 10px">
+    <h1 style="padding: 10px">
+      Yay! We have recommendations for you
+    </h1>
+    <p>
+      These are the recommendations based on your ratings:
+    </p><br>
+  </div style="padding: 10px;">
+    <ul style="color: rgb(176, 155, 218);">
+      {%for f,l in films%}
+        <li style="color: rgb(35, 21, 112);"><a style="color: rgb(23, 8, 52);" href="{{l}}">{{f}}</a></li><br><br>
+      {%endfor%}
+    </ul>
+{% endblock %}
