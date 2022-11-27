@@ -3,21 +3,11 @@ import pandas as pd
 import pickle
 from sklearn.metrics.pairwise import cosine_similarity
 
-
-COLUMNS = pickle.load(open('./columns.sav', 'rb'))
-
-RATINGS_DF = pd.read_csv('./data/ratings_matrix_original.csv', index_col=0)
+RATINGS_DF = pd.read_csv('./data/ratings_filtered_matrix.csv', index_col=0)
 
 INDEX = RATINGS_DF.index.max()
 
-
-INIT_DICT = {
-            'Toy Story (1995)': 2,
-            'Casino (1995)': 1,
-            'Pocahontas (1995)': 2.5,
-            'Basketball Diaries, The (1995)':5,
-            'Little Princess, A (1995)': 1.5
-            }
+COLUMNS = list(RATINGS_DF.columns)
 
 
 def calculate_similarity(rating_dict, columns):
@@ -67,5 +57,10 @@ def calculate_similarity(rating_dict, columns):
 
 
 
-#predictions = calculate_similarity(INIT_DICT, COLUMNS)
+def get_most_watched(dataframe=RATINGS_DF) -> list:
+    return list(dataframe.notna().sum().sort_values(ascending=False).index[:10])
 
+
+def get_high_rated(dataframe=RATINGS_DF) -> list:
+
+    return list(dataframe.mean().sort_values(ascending=False).index[:10])

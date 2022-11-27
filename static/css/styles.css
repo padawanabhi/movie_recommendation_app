@@ -1,0 +1,89 @@
+.main {
+    background-color: rgb(37, 31, 31);
+}
+
+.box {
+    text-align: center;
+}
+
+.ratings {
+    padding-left: 220px;
+    color: #818181;
+    text-align: left;
+}
+
+
+.list {
+    color: #818181;
+    text-align: left;
+    font-size: medium;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-decoration: underline;
+}
+
+.list a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 15px;
+    color: #818181;
+    background-color: #111;
+    display: block;
+  }
+
+.list a:hover {
+    color: #f1f1f1;
+  }
+
+.para {
+    color: #868612;
+    text-align: left;
+    padding-left: 220px;
+    font-size: 20px;
+    text-decoration: double;
+}
+
+.head {
+    color: #818181;
+    padding-left: 220px;
+    text-align: left;
+    text-shadow: 5px;
+    font-weight: bold;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 
+                'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+
+.sidenav {
+    height: 100%;
+    width: 220px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 20px;
+  }
+  
+.sidenav a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+  }
+  
+.sidenav a:hover {
+    color: #f1f1f1;
+  }
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 15px;}
+  }
+
+.giphy {
+  height: 200px;
+  width: 1000px;
+  padding-left: 220px;
+}

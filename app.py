@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 from nmf_recommender import recommend_movies, get_movie_id, get_movie_name, get_movie_link
 import random
-from similarity_recommender import COLUMNS, calculate_similarity
+from similarity_recommender import COLUMNS, calculate_similarity, get_most_watched, get_high_rated
 
 app = Flask(__name__)
 
@@ -21,13 +21,34 @@ def make_recommendations():
         new_key = get_movie_name(key)
         new_dict[new_key] = float(value)
     
-    #recommendations = recommend_movies(new_dict, 'nmf_moviemean.sav')
+    filter_factor = recommend_movies(new_dict, 'nmf_users_filtered.sav')
+
+    similar = calculate_similarity(new_dict, COLUMNS)
+
+    watched = get_most_watched()
+
+    rated = get_high_rated()
+
+    nmf_links =[ get_movie_link(get_movie_id(recommendation))  for recommendation in filter_factor]
     
-    recommendations = calculate_similarity(new_dict, COLUMNS)
+    sim_links =[ get_movie_link(get_movie_id(recommendation))  for recommendation in similar]
 
-    links =[ get_movie_link(get_movie_id(recommendation))  for recommendation in recommendations]
+    watched_links =[ get_movie_link(get_movie_id(recommendation))  for recommendation in watched]
 
-    return render_template('recommendations.html', title="Recommendations - Results", films=zip(recommendations, links))
+    rated_links =[ get_movie_link(get_movie_id(recommendation))  for recommendation in rated]
+
+    return render_template('recommendations.html', title="Recommendations - Results", 
+                            films=zip(filter_factor, nmf_links), 
+                            movies = zip(similar, sim_links), 
+                            popular=zip(watched, watched_links),
+                            high_rated = zip(rated, rated_links))
+
+
+@app.route('/categories')
+def get_categories():
+    return """
+            Still in Progress
+            """
 
 
 

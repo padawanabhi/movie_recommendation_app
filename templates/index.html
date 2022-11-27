@@ -3,18 +3,19 @@
 {{title}} 
 {% endblock %}
 {% block content %}
-    <h1 style="padding: 10px">Hello there! Welcome to Abhi's Recommender!</h1>
-    <div style="padding: 10px">
-        <h2>Get movie recommendations</h2>
-            <p> <strong>Please provide a ratings for the following:</strong> <br>
+    <h1 class="head">Hello there! Welcome to Abhi's Recommender!</h1>
+    <div class="box">
+        <h2 class="head">Get movie recommendations</h2>
+        <img src="static/images/movies.jpeg" alt="Movies" width="1200" height="600"><br><br>
+            <p class="para"> <strong>Please provide a ratings for the following:</strong> <br>
                 <em>(This will helps us make recommendations)</em><br>
             </p>
     </div>
-    <div style="padding: 10px">
-        <form action="/recommendations">
+    <div class="box">
+        <form class="ratings" action="/recommendations">
             {% for film, labels in film_list%}
             {{film}}:
-            <input type=text name={{labels}} placeholder="0-5"><br><br>
+            <input type=number name={{labels}} value="0" max="5" min="0"><br><br>
             {%endfor%}
         <p><input type="submit"></p>
         </form>

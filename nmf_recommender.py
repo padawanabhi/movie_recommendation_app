@@ -1,17 +1,21 @@
 import pickle
 import pandas as pd
 import numpy as np
+from similarity_recommender import COLUMNS
 
-columns = pickle.load(open('./columns.sav', 'rb'))
 
-Q_matrix = pd.read_csv('./data/Q_matrix.csv', index_col=0)
+Q_matrix = pd.read_csv('./data/Q_filtered.csv', index_col=0)
 
 IMDB_BASE_LINK = 'https://www.imdb.com/title/tt'
+
+MOVIE_DF = pd.read_csv('./data/movies.csv', index_col=0)
+
+LINKS_DF = pd.read_csv('./data/links.csv', index_col=0)
 
 
 def recommend_movies(rating_dict, model_name):
 
-    user_ratings = pd.DataFrame(rating_dict, columns=columns, index=[0])
+    user_ratings = pd.DataFrame(rating_dict, columns=COLUMNS, index=[0])
     user_original = user_ratings.copy()
 
     model = pickle.load(open(f'./models/{model_name}', 'rb'))
@@ -24,7 +28,7 @@ def recommend_movies(rating_dict, model_name):
 
     R_user = np.dot(P_user, Q_matrix)
 
-    user_df = pd.DataFrame(R_user, columns=columns)
+    user_df = pd.DataFrame(R_user, columns=COLUMNS)
 
     boolean_mark = user_original.isna()
 
@@ -37,10 +41,9 @@ def recommend_movies(rating_dict, model_name):
 
 
 
-def get_movie_id(movie_name):
-    movie_df = pd.read_csv('./data/movies.csv', index_col=0)
+def get_movie_id(movie_name): 
 
-    movie_id = movie_df[movie_df['title'] == movie_name].index[0]
+    movie_id = MOVIE_DF[MOVIE_DF['title'] == movie_name].index[0]
 
     return str(movie_id)
 
@@ -48,9 +51,8 @@ def get_movie_id(movie_name):
 
 
 def get_movie_name(movie_id):
-    movie_df = pd.read_csv('./data/movies.csv', index_col=0)
 
-    movie_name = movie_df[movie_df.index == int(movie_id)]['title'].values[0]
+    movie_name = MOVIE_DF[MOVIE_DF.index == int(movie_id)]['title'].values[0]
 
     return movie_name
 
@@ -58,9 +60,8 @@ def get_movie_name(movie_id):
 
 
 def get_movie_link(movie_id):
-    link_df = pd.read_csv('./data/links.csv', index_col=0)
 
-    imdb_id = link_df[link_df.index == int(movie_id)]['imdbId'].values[0]
+    imdb_id = LINKS_DF[LINKS_DF.index == int(movie_id)]['imdbId'].values[0]
     if len(str(imdb_id)) == 7:
         imdb_link = IMDB_BASE_LINK + str(imdb_id) + '/'
     else:
