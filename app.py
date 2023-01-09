@@ -15,41 +15,44 @@ def main_page():
 
 @app.route('/recommendations')
 def make_recommendations():
-    user_input_ratings = dict(request.args)
-    new_dict = {}
-    for key, value in user_input_ratings.items():
-        new_key = get_movie_name(key)
-        new_dict[new_key] = float(value)
-    
-    filter_factor = recommend_movies(new_dict, 'nmf_users_filtered.sav')
-
-    similar = calculate_similarity(new_dict, COLUMNS)
 
     watched = get_most_watched()
 
     rated = get_high_rated()
-
-    nmf_links =[ get_movie_link(get_movie_id(recommendation))  for recommendation in filter_factor]
     
-    sim_links =[ get_movie_link(get_movie_id(recommendation))  for recommendation in similar]
-
     watched_links =[ get_movie_link(get_movie_id(recommendation))  for recommendation in watched]
 
     rated_links =[ get_movie_link(get_movie_id(recommendation))  for recommendation in rated]
+    
+    try:
+        user_input_ratings = dict(request.args)
+        new_dict = {}
+        for key, value in user_input_ratings.items():
+            new_key = get_movie_name(key)
+            new_dict[new_key] = float(value)
+        
+        filter_factor = recommend_movies(new_dict, 'nmf_users_filtered.sav')
 
-    return render_template('recommendations.html', title="Recommendations - Results", 
-                            films=zip(filter_factor, nmf_links), 
-                            movies = zip(similar, sim_links), 
-                            popular=zip(watched, watched_links),
-                            high_rated = zip(rated, rated_links))
+        similar = calculate_similarity(new_dict, COLUMNS)
+
+        nmf_links =[ get_movie_link(get_movie_id(recommendation))  for recommendation in filter_factor]
+        
+        sim_links =[ get_movie_link(get_movie_id(recommendation))  for recommendation in similar]
+
+        return render_template('recommendations.html', title="Recommendations - Results", 
+                                films=zip(filter_factor, nmf_links), 
+                                movies = zip(similar, sim_links), 
+                                popular=zip(watched, watched_links),
+                                high_rated = zip(rated, rated_links))
+    except:
+        return render_template('base_recommendations.html', 
+                                popular=zip(watched, watched_links),
+                                high_rated = zip(rated, rated_links))
 
 
 @app.route('/categories')
 def get_categories():
-    return """
-            Still in Progress
-            """
-
+    return render_template('categories.html', title="Categories")
 
 
 if __name__ == '__main__':

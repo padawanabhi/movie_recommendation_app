@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}
+{{title}}
+{% endblock %}
+
+{% block content %}
+  <div class="box">
+    <h1 class="head">
+      Yay! We have recommendations for you
+    </h1>
+    <img class="giphy" src="./../static/images/final.gif">
+    <h2 class="head">
+      These are the recommendations for you:
+    </h2><br>
+  </div>
+  <div class="box">
+    <p class="para">Most watched movies</p>
+    <table style="padding-left: 220px; width: 100%; height: 150px;">
+      <tr>
+        {%for w,wl in popular%}
+        <td class="list"><a href="{{wl}}">{{w}}</a></td>
+        {%endfor%}
+      </tr>
+    </table>
+    <p class="para">Highest average rated movies</p>
+    <table style="padding-left: 220px; width: 100%; height: 150px;">
+      <tr>
+        {%for h,hl in high_rated%}
+        <td class="list"><a href="{{hl}}">{{h}}</a></td>
+        {%endfor%}
+      </tr>
+    </table>
+  </div>  
+{% endblock %}
